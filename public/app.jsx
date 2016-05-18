@@ -1,10 +1,54 @@
+/*
+ *
+ *  Presentational components dont maintain state (Render to the browser)
+ *  Container components do maintain state (Maintain state and render children)
+ */
+
+var GreeterMessage = React.createClass({
+  // Anonymous inner function (doesnt take any parameters)
+  render: function () {
+    var name = this.props.name;
+    var message = this.props.message;
+
+    return (
+      <div>
+        <h1>Hello {name}!</h1>
+        <p>{message}</p>
+      </div>
+    )
+  }
+});
+
+var GreeterForm = React.createClass({
+    // create onFormSubmit with event listener
+    onFormSubmit: function (e) {
+      e.preventDefault();
+
+      var name = this.refs.name.value;
+
+      if (name.length > 0) {
+          this.refs.name.value = '';
+          this.props.onNewName(name);
+      }
+    },
+    // Anonymous inner function (doesnt take any parameters)
+    render: function () {
+      return (
+          <form onSubmit={this.onFormSubmit}>
+            <input type="text" ref="name"/>
+            <button>Set Name</button>
+          </form>
+      )
+    }
+});
+
 // REACT COMPONENT (re-usable)
 var Greeter = React.createClass({
   // provides default values if no properties are specifed
   getDefaultProps: function () {
     return {
       name: 'React',
-      msg: 'This is a backup/default message prop'
+      message: 'This is a backup/default message prop'
     };
   },
   getInitialState: function () {
@@ -19,50 +63,34 @@ var Greeter = React.createClass({
       // NOTE: component cant update props, THEY CAN ONLY UPDATE STATE
     };
   },
-  onButtonClick: function (e) {
-    e.preventDefault();
-    // see refs in Greeter tag
-    var name = this.refs.name.value;
-    // clear the input text field
-    this.refs.name.value = '';
-
-    // if name is type String AND name is at least one char long
-    if (typeof name === 'string' && name.length > 0) {
-      // set the var name to name value
-      this.setState({
-        name: name
-      });
-    }
+  handleNewName: function (name) {
+    this.setState({
+      name: name
+    });
   },
   render: function() {
     // declare property var for use in JSX
     var name = this.state.name;
-    var message = this.props.msg;
+    var message = this.props.message;
     return (
       // can only return a single root HTML element/tag
       // curly braces used for props (properties of component)
       <div>
-        <h1>Hello {name}!</h1>
-        <p>{message + '!!'}</p>
-
-        <form onSubmit={this.onButtonClick}>
-          <input type="text" ref="name"/>
-          <button>Set Name</button>
-        </form>
-
+        <GreeterMessage name={name} message={message}/>
+        <GreeterForm onNewName={this.handleNewName}/>
       </div>
     );
   }
 });
+
 // prop vars to pass to DOM
 var nameProp = 'stranger';
-var msgProp = 'This message param is passed as a prop'
 
 // DOM (React component passed to DOM as first parameter)
 ReactDOM.render(
   // properties are passed into components this way (ie: name="d-fay")
   // <Greeter name="d-fay"/>,
   // or in a modular way by passing in vars like this!
-  <Greeter name={nameProp} msg={msgProp}/>,
+  <Greeter name={nameProp}/>,
   document.getElementById('app')
 );
