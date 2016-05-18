@@ -26,6 +26,7 @@ var Greeter = React.createClass({
     // clear the input text field
     this.refs.name.value = '';
 
+    // if name is type String AND name is at least one char long
     if (typeof name === 'string' && name.length > 0) {
       // set the var name to name value
       this.setState({
