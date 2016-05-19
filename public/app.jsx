@@ -4,6 +4,11 @@
  *  Container components do maintain state (Maintain state and render children)
  */
 
+/* PRESENTATIONAL COMPENENT
+ *
+ * -  Accesses two props that get passed to if from the parent and
+ *    renders thems to the screen (and thats it)
+ */
 var GreeterMessage = React.createClass({
   // Anonymous inner function (doesnt take any parameters)
   render: function () {
@@ -18,7 +23,7 @@ var GreeterMessage = React.createClass({
     )
   }
 });
-
+/* PRESENTATIONAL COMPENENT  - passed onNewName function */
 var GreeterForm = React.createClass({
     // create onFormSubmit with event listener
     onFormSubmit: function (e) {
@@ -28,6 +33,7 @@ var GreeterForm = React.createClass({
 
       if (name.length > 0) {
           this.refs.name.value = '';
+          // function passed in from the parent
           this.props.onNewName(name);
       }
     },
@@ -42,7 +48,11 @@ var GreeterForm = React.createClass({
     }
 });
 
-// REACT COMPONENT (re-usable)
+/* CONTAINER COMPONENT - maintains state for the application (name attribute)
+ * - When state gets upsated it updates its childeren
+ * - So if the state gets a new name the greeter message
+ *   is going to re-render because it relies on the name state.
+ */
 var Greeter = React.createClass({
   // provides default values if no properties are specifed
   getDefaultProps: function () {
