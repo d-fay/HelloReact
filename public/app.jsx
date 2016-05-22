@@ -25,26 +25,43 @@ var GreeterMessage = React.createClass({
 });
 /* PRESENTATIONAL COMPENENT  - passed onNewName function */
 var GreeterForm = React.createClass({
-    // create onFormSubmit with event listener
+    // create onFormSubmit handler with event listener
+    // ---builds 'updates' object, passes it to greeter component.
     onFormSubmit: function (e) {
       e.preventDefault();
 
+      var updates = {};
       var name = this.refs.name.value;
+      var message = this.refs.message.value;
+
 
       if (name.length > 0) {
-          this.refs.name.value = '';
-          // function passed in from the parent
-          this.props.onNewName(name);
+        this.refs.name.value = '';
+        // function passed in from the parent
+        updates.name = name;
       }
+      if (message.length > 0) {
+        this.refs.message.value = '';
+        updates.message = message;
+      }
+      //passes updates {} to greeter component
+      this.props.onNewData(updates);
     },
     // Anonymous inner function (doesnt take any parameters)
     render: function () {
       return (
           <form onSubmit={this.onFormSubmit}>
-            <input type="text" ref="name"/>
-            <button>Set Name</button>
+            <div>
+              <input type="text" ref="name" placeholder="Enter name"/>
+            </div>
+            <div>
+              <textarea ref="message" placeholder="Enter message"></textarea>
+            </div>
+            <div>
+              <button>Submit</button>
+            </div>
           </form>
-      )
+      );
     }
 });
 
@@ -65,7 +82,8 @@ var Greeter = React.createClass({
     return {
       // STATE IS INTERNALLY MAINTAINED AND UPDATED BY THE COMPONENT
       // PROPS GET PASSED INTO A COMPONENT AS YOU INITIALIZE IT
-      name: this.props.name
+      name: this.props.name,
+      message: this.props.message
       // should be used to initialize, whereas
       // name: this.state.name
       // should be used to update
@@ -73,21 +91,19 @@ var Greeter = React.createClass({
       // NOTE: component cant update props, THEY CAN ONLY UPDATE STATE
     };
   },
-  handleNewName: function (name) {
-    this.setState({
-      name: name
-    });
+  handleNewData: function (updates) {
+    this.setState(updates);
   },
   render: function() {
     // declare property var for use in JSX
     var name = this.state.name;
-    var message = this.props.message;
+    var message = this.state.message;
     return (
       // can only return a single root HTML element/tag
       // curly braces used for props (properties of component)
       <div>
         <GreeterMessage name={name} message={message}/>
-        <GreeterForm onNewName={this.handleNewName}/>
+        <GreeterForm onNewData={this.handleNewData}/>
       </div>
     );
   }
