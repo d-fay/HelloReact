@@ -3,6 +3,8 @@
  *  Presentational components dont maintain state (Render to the browser)
  *  Container components do maintain state (Maintain state and render children)
  */
+var React = require('react');
+var ReactDOM = require('react-dom');
 
 /* PRESENTATIONAL COMPENENT
  *
