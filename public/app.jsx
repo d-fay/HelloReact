@@ -5,7 +5,7 @@
  */
 var React = require('react');
 var ReactDOM = require('react-dom');
-var Greeter = require('./componens/Greeter');
+var Greeter = require('Greeter');
 
 // prop vars to pass to DOM
 var nameProp = 'stranger';

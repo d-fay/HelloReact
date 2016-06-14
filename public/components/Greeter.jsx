@@ -2,10 +2,8 @@
 
 var React = require('react');
 // no extention necessary because JSX is supported in webpack.config
-var GreeterMessage = require('./GreeterMessage');
-var GreeterForm = require('./GreeterForm');
-
-
+var GreeterMessage = require('GreeterMessage');
+var GreeterForm = require('GreeterForm');
 
 /* CONTAINER COMPONENT - maintains state for the application (name attribute)
  * - When state gets upsated it updates its childeren
